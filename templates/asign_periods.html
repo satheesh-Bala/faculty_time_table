@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"> <!-- Viewport for responsiveness -->
+    <title>Manage Time Slots</title>
+    <link rel="stylesheet" href="/static/manage_time_slots.css"> <!-- Link to CSS file -->
+</head>
+<body>
+    <div class="container">
+        <h1>Manage Time Slots</h1>
+
+        <form method="POST" action="{{ url_for('manage_time_slots') }}">
+            <label for="date">Date:</label>
+            <input type="date" id="date" name="date" required>
+            <br>
+
+            <label for="faculty_id">Faculty</label>
+            <select id="faculty_id" name="faculty_id" required>
+                {% for faculty in faculties %}
+                <option value="{{ faculty.id }}">{{ faculty.name }}</option>
+                {% endfor %}
+            </select>
+            <br>
+
+            <label for="periods">Allocate Periods:</label>
+            <br>
+            {% for i in range(1, 9) %}
+            <input type="checkbox" id="period_{{ i }}" name="period_{{ i }}" value="1">
+            <label for="period_{{ i }}">Period {{ i }}</label>
+            <br>
+            {% endfor %}
+            <br>
+
+            <button type="submit">Add Time Slot</button>
+        </form>
+    </div>
+</body>
+</html>

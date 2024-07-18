@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Faculty List</title>
+    <link rel="stylesheet" href="/static/faculty.css">
+</head>
+<body>
+    <h2>Available Faculty Members</h2>
+    <div class="table-container">
+        <table class="faculty-table">
+            <thead>
+                <tr>
+                    <th>Faculty Name</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for faculty in faculty_members %}
+                <tr>
+                    <td>{{ faculty.name }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        <button class="button">Back</button>
+    </div>
+</body>
+</html>

@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>View Time Slots by Date</title>
+    <script type="text/javascript">
+        function submitForm() {
+            document.getElementById('date-form').submit();
+        }
+    </script>
+    <link rel="stylesheet" href="/static/index.css">
+    <style>
+        .table-container {
+            overflow-x: auto;
+        }
+
+        .table-container table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .table-container table th,
+        .table-container table td {
+            border: 1px solid #dddddd;
+            text-align: center;
+            padding: 8px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="section" id="form-section">
+        <h1>View Time Slots by Date</h1>
+        <form id="date-form" method="GET" action="{{ url_for('time_slots_by_date') }}">
+            <label for="date">Select Date:</label>
+            <input type="date" id="date" name="date" required onchange="submitForm()">
+            <button type="submit" style="display:none;">View Time Slots</button>
+        </form>
+    </div>
+
+    {% if time_slots %}
+    <div class="section" id="table-section">
+        <h2>Time Slots for {{ selected_date }}</h2>
+        <div class="table-container">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Faculty</th>
+                        <th>Period 1</th>
+                        <th>Period 2</th>
+                        <th>Period 3</th>
+                        <th>Period 4</th>
+                        <th>Period 5</th>
+                        <th>Period 6</th>
+                        <th>Period 7</th>
+                        <th>Period 8</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% set all_checked = true %}
+                    {% for time_slot in time_slots %}
+                    <tr>
+                        <td>{{ time_slot.faculty.name }}</td>
+                        <td>{{ '✅' if time_slot.period_1|int == 1 else '❌' }}</td>
+                        <td>{{ '✅' if time_slot.period_2|int == 1 else '❌' }}</td>
+                        <td>{{ '✅' if time_slot.period_3|int == 1 else '❌' }}</td>
+                        <td>{{ '✅' if time_slot.period_4|int == 1 else '❌' }}</td>
+                        <td>{{ '✅' if time_slot.period_5|int == 1 else '❌' }}</td>
+                        <td>{{ '✅' if time_slot.period_6|int == 1 else '❌' }}</td>
+                        <td>{{ '✅' if time_slot.period_7|int == 1 else '❌' }}</td>
+                        <td>{{ '✅' if time_slot.period_8|int == 1 else '❌' }}</td>
+                    </tr>
+                    {% if time_slot.period_1 != 1 or time_slot.period_2 != 1 or time_slot.period_3 != 1 or
+                    time_slot.period_4 != 1 or time_slot.period_5 != 1 or time_slot.period_6 != 1 or time_slot.period_7
+                    != 1 or time_slot.period_8 != 1 %}
+                    {% set all_checked = false %}
+                    {% endif %}
+                    {% endfor %}
+                    <tr>
+                        <td>Free Periods</td>
+                        <td>{{ '✅' if all_checked else '❌' }}</td>
+                        <td>{{ '✅' if all_checked else '❌' }}</td>
+                        <td>{{ '✅' if all_checked else '❌' }}</td>
+                        <td>{{ '✅' if all_checked else '❌' }}</td>
+                        <td>{{ '✅' if all_checked else '❌' }}</td>
+                        <td>{{ '✅' if all_checked else '❌' }}</td>
+                        <td>{{ '✅' if all_checked else '❌' }}</td>
+                        <td>{{ '✅' if all_checked else '❌' }}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    {% endif %}
+
+    <div class="buttons">
+        <a href="{{ url_for('add_faculty') }}">
+            <button>Add Faculty</button>
+        </a>
+        <a href="{{ url_for('asign_periods') }}">
+            <button>Add Time Slot</button>
+        </a>
+        <a href="{{ url_for('faculty_list') }}">
+            <button>See Faculty List</button>
+        </a>
+    </div>
+</body>
+
+</html>

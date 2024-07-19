@@ -1,1 +1,1 @@
-Time table
+Time table faculty

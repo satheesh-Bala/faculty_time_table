@@ -11,23 +11,6 @@
         }
     </script>
     <link rel="stylesheet" href="/static/index.css">
-    <style>
-        .table-container {
-            overflow-x: auto;
-        }
-
-        .table-container table {
-            width: 100%;
-            border-collapse: collapse;
-        }
-
-        .table-container table th,
-        .table-container table td {
-            border: 1px solid #dddddd;
-            text-align: center;
-            padding: 8px;
-        }
-    </style>
 </head>
 
 <body>
@@ -59,42 +42,49 @@
                     </tr>
                 </thead>
                 <tbody>
-                    {% set all_checked = true %}
+                    <!-- Initialize variables to check if all periods in each column are crosses (❌) -->
+                    {% set period_1_all_cross = true %}
+                    {% set period_2_all_cross = true %}
+                    {% set period_3_all_cross = true %}
+                    {% set period_4_all_cross = true %}
+                    {% set period_5_all_cross = true %}
+                    {% set period_6_all_cross = true %}
+                    {% set period_7_all_cross = true %}
+                    {% set period_8_all_cross = true %}
+
+                    <!-- Iterate through each time slot to determine period status -->
                     {% for time_slot in time_slots %}
                     <tr>
                         <td>{{ time_slot.faculty.name }}</td>
-                        <td>{{ '✅' if time_slot.period_1|int == 1 else '❌' }}</td>
-                        <td>{{ '✅' if time_slot.period_2|int == 1 else '❌' }}</td>
-                        <td>{{ '✅' if time_slot.period_3|int == 1 else '❌' }}</td>
-                        <td>{{ '✅' if time_slot.period_4|int == 1 else '❌' }}</td>
-                        <td>{{ '✅' if time_slot.period_5|int == 1 else '❌' }}</td>
-                        <td>{{ '✅' if time_slot.period_6|int == 1 else '❌' }}</td>
-                        <td>{{ '✅' if time_slot.period_7|int == 1 else '❌' }}</td>
-                        <td>{{ '✅' if time_slot.period_8|int == 1 else '❌' }}</td>
+                        <td>{% if time_slot.period_1 == 1 %}✅{% set period_1_all_cross = false %}{% else %}❌{% endif %}</td>
+                        <td>{% if time_slot.period_2 == 1 %}✅{% set period_2_all_cross = false %}{% else %}❌{% endif %}</td>
+                        <td>{% if time_slot.period_3 == 1 %}✅{% set period_3_all_cross = false %}{% else %}❌{% endif %}</td>
+                        <td>{% if time_slot.period_4 == 1 %}✅{% set period_4_all_cross = false %}{% else %}❌{% endif %}</td>
+                        <td>{% if time_slot.period_5 == 1 %}✅{% set period_5_all_cross = false %}{% else %}❌{% endif %}</td>
+                        <td>{% if time_slot.period_6 == 1 %}✅{% set period_6_all_cross = false %}{% else %}❌{% endif %}</td>
+                        <td>{% if time_slot.period_7 == 1 %}✅{% set period_7_all_cross = false %}{% else %}❌{% endif %}</td>
+                        <td>{% if time_slot.period_8 == 1 %}✅{% set period_8_all_cross = false %}{% else %}❌{% endif %}</td>
                     </tr>
-                    {% if time_slot.period_1 != 1 or time_slot.period_2 != 1 or time_slot.period_3 != 1 or
-                    time_slot.period_4 != 1 or time_slot.period_5 != 1 or time_slot.period_6 != 1 or time_slot.period_7
-                    != 1 or time_slot.period_8 != 1 %}
-                    {% set all_checked = false %}
-                    {% endif %}
                     {% endfor %}
+                    
+
+                    <!-- Display the Free Periods row based on the variables tracking each period -->
                     <tr>
                         <td>Free Periods</td>
-                        <td>{{ '✅' if all_checked else '❌' }}</td>
-                        <td>{{ '✅' if all_checked else '❌' }}</td>
-                        <td>{{ '✅' if all_checked else '❌' }}</td>
-                        <td>{{ '✅' if all_checked else '❌' }}</td>
-                        <td>{{ '✅' if all_checked else '❌' }}</td>
-                        <td>{{ '✅' if all_checked else '❌' }}</td>
-                        <td>{{ '✅' if all_checked else '❌' }}</td>
-                        <td>{{ '✅' if all_checked else '❌' }}</td>
+                        <td>{{ '✅' if period_1_all_cross == false else '❌' }}</td>
+                        <td>{{ '✅' if period_2_all_cross == false else '❌' }}</td>
+                        <td>{{ '✅' if period_3_all_cross == false else '❌' }}</td>
+                        <td>{{ '✅' if period_4_all_cross == false else '❌' }}</td>
+                        <td>{{ '✅' if period_5_all_cross == false else '❌' }}</td>
+                        <td>{{ '✅' if period_6_all_cross == false else '❌' }}</td>
+                        <td>{{ '✅' if period_7_all_cross == false else '❌' }}</td>
+                        <td>{{ '✅' if period_8_all_cross == false else '❌' }}</td>
                     </tr>
                 </tbody>
             </table>
         </div>
     </div>
     {% endif %}
-
     <div class="buttons">
         <a href="{{ url_for('add_faculty') }}">
             <button>Add Faculty</button>
